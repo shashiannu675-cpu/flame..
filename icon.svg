@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#080202"/>
+  <path d="M32 6C32 6 39 19 39 27C39 33 35 37 31 41C27 37 25 32 26 26C21 31 19 39 21 46C23 54 29 60 37 60C47 60 55 51 55 40C55 27 45 17 43 11C43 11 41 18 37 20C35 15 32 6 32 6Z" fill="url(#flameA)"/>
+  <path d="M31 29C31 29 35 35 35 39C35 42 33 44 31 47C29 44 28 42 28 39C26 41 25 45 26 49C27 53 30 56 34 57C39 57 43 52 43 46C43 39 37 35 36 32C36 32 35 35 33 36C32 33 31 29 31 29Z" fill="url(#flameB)"/>
+  <defs>
+    <linearGradient id="flameA" x1="19" y1="6" x2="55" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFAB00"/>
+      <stop offset="0.5" stop-color="#FF3D00"/>
+      <stop offset="1" stop-color="#D50000"/>
+    </linearGradient>
+    <linearGradient id="flameB" x1="26" y1="29" x2="43" y2="57" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF9C4"/>
+      <stop offset="0.6" stop-color="#FFD600"/>
+      <stop offset="1" stop-color="#FF6D00"/>
+    </linearGradient>
+  </defs>
+</svg>
