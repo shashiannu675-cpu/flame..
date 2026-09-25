@@ -1,36 +1,29 @@
-// Service Worker for Inferno Predictor
-const CACHE_NAME = 'inferno-v1';
-const ASSETS = [
-  './',
-  './index.html',
-  './manifest.json',
-  './icon.svg'
-];
+#!/usr/bin/env python3
+import os
+import sys
+import http.server
+import socketserver
 
-self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
-  );
-  self.skipWaiting();
-});
+PORT = int(os.environ.get('PORT', 8000))
+DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 
-self.addEventListener('activate', (e) => {
-  e.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))
-      );
-    })
-  );
-  self.clients.claim();
-});
+class CustomHTTPHandler(http.server.SimpleHTTPRequestHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, directory=DIRECTORY, **kwargs)
 
-self.addEventListener('fetch', (e) => {
-  // Always fetch live for Supabase API requests
-  if (e.request.url.includes('supabase.co')) {
-    return;
-  }
-  e.respondWith(
-    caches.match(e.request).then((res) => res || fetch(e.request))
-  );
-});
+    def end_headers(self):
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Cache-Control', 'no-cache, must-revalidate')
+        super().end_headers()
+
+if __name__ == '__main__':
+    socketserver.TCPServer.allow_reuse_address = True
+    with socketserver.TCPServer(('0.0.0.0', PORT), CustomHTTPHandler) as httpd:
+        print(f'==> Inferno Server running on port {PORT}')
+        print(f'==> Serving directory: {DIRECTORY}')
+        sys.stdout.flush()
+        try:
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            print('Server shutting down.')
+            httpd.server_close()
